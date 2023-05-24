@@ -9,15 +9,16 @@ counter1 = -1
 counter2 = -1
 
 screen = turtle.Screen()
-screen.title("Courier Routing system")
-image = "blank_states_img.gif"
+screen.title("US States Courier Routing system")
+image = "usa.gif"
 screen.addshape(image)
 turtle.shape(image)
 
 data = pandas.read_csv("50_states.csv")
 all_states = data.state.to_list()
 
-answer_state = "Washington, " + screen.textinput(title=f"Shipping To U.S. States", prompt="Enter pickup and delivery "
+start_state = screen.textinput(title="Pickup", prompt="Enter Pickup Location:").title()
+answer_state = start_state + ", " + screen.textinput(title=f"Shipping To U.S. States", prompt="Enter pickup and delivery "
                                                                                           "locations separated by a "
                                                                                           "comma:").title()
 guessed_states = answer_state.split(", ")
@@ -33,8 +34,8 @@ if answer_state == "Exit":
 
 for state in guessed_states:
     state_data = data[data["state"] == state]
-    x = int(state_data["x"])
-    y = int(state_data["y"])
+    x = int(state_data.x)
+    y = int(state_data.y)
     name = state
     state = Cities(name=name, x=x, y=y)
     state.hideturtle()
@@ -59,12 +60,18 @@ file = pandas.DataFrame(init_graph)
 data_file = file.to_csv("data.csv")
 
 graph = dijkstra.Graph(guessed_states, init_graph)
-previous_nodes, shortest_path = dijkstra.dijkstra_algorithm(graph=graph, start_node="Washington")
-path = dijkstra.print_result(previous_nodes, shortest_path, start_node="Washington", target_node=guessed_states[-1])
-sha7bora = turtle.Turtle()
-sha7bora.pensize(2)
+previous_nodes, shortest_path = dijkstra.dijkstra_algorithm(graph=graph, start_node=start_state)
+path = dijkstra.print_result(previous_nodes, shortest_path, start_node=start_state, target_node=guessed_states[-1])
+turtle = turtle.Turtle(visible=False)
+turtle.penup()
+turtle.pensize(5)
+turtle.pencolor((1, 1, 1))
+turtle.goto(objects[0].x, objects[0].y)
+turtle.pendown()
+turtle.showturtle()
+
 for state in objects:
-    sha7bora.goto(state.x, state.y)
-    sha7bora.write(state.name)
+    turtle.goto(state.x, state.y)
+    turtle.write(state.name)
 
 screen.mainloop()
