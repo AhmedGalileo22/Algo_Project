@@ -10,11 +10,11 @@ counter2 = -1
 
 screen = turtle.Screen()
 screen.title("US States Courier Routing system")
-image = "usa.gif"
+image = "assets/usa.gif"
 screen.addshape(image)
 turtle.shape(image)
 
-data = pandas.read_csv("50_states.csv")
+data = pandas.read_csv("data/50_states.csv")
 all_states = data.state.to_list()
 
 start_state = screen.textinput(title="Pickup", prompt="Enter Pickup Location:").title()
@@ -30,7 +30,7 @@ if answer_state == "Exit":
             missing_states.append(state)
 
     new_data = pandas.DataFrame(missing_states)
-    new_data.to_csv("states_to_learn.csv")
+    new_data.to_csv("data/states_to_learn.csv")
 
 for state in guessed_states:
     state_data = data[data["state"] == state]
@@ -57,7 +57,7 @@ for node in guessed_states:
     counter2 = -1
 
 file = pandas.DataFrame(init_graph)
-data_file = file.to_csv("data.csv")
+data_file = file.to_csv("data/data.csv")
 
 graph = dijkstra.Graph(guessed_states, init_graph)
 previous_nodes, shortest_path = dijkstra.dijkstra_algorithm(graph=graph, start_node=start_state)
