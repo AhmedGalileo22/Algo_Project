@@ -18,7 +18,7 @@ data = pandas.read_csv("data/50_states.csv")
 all_states = data.state.to_list()
 
 start_state = screen.textinput(title="Pickup", prompt="Enter Pickup Location:").title()
-answer_state = start_state + ", " + screen.textinput(title=f"Shipping To U.S. States", prompt="Enter pickup and delivery "
+answer_state = start_state + ", " + screen.textinput(title=f"Shipping To U.S. States", prompt="Enter delivery "
                                                                                           "locations separated by a "
                                                                                           "comma:").title()
 guessed_states = answer_state.split(", ")
